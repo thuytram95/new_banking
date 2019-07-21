@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static Pages.Transfer.amountOfMoneyElement;
+import static Pages.Transfer.receiveAccountElement;
 
 public class Transfer {
     Properties properties;
@@ -57,12 +58,13 @@ public class Transfer {
             Boolean isDisplayTransferSuccessful = Actions.Transfer.checkStatusSuccessful(driver);
 
             if (isDisplayTransferSuccessful) {
-                Export.ExcelFile("ResultDemo", "Result", "TC01", "", "Passed");
+                Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_01", "Verify that user can transfer successful with enter valid data all the remaining fields", "Passed");
+                return;
             }
         }
 
         System.out.println("NOT OK");
-        Export.ExcelFile("ResultDemo", "Result", "TC01", "", "Failed");
+        Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_01", "Verify that user can transfer successful with enter valid data all the remaining fields", "Failed");
     }
 
     @Test
@@ -75,13 +77,12 @@ public class Transfer {
 
         if (observerMessage == expectedMessage) {
             System.out.println("OK");
-            Export.ExcelFile("ResultDemo", "Result", "TC01", "", "Passed");
+            Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_02", "Verify that the message 'Vui lòng nhập số tiền' is displayed when leave 'Số tiền' field blank.", "Passed");
         }
 
         System.out.println("Not OK");
-        Export.ExcelFile("ResultDemo", "Result", "TC01", observerMessage, "Fail");
+        Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_02", "Verify that the message 'Vui lòng nhập số tiền' is displayed when leave 'Số tiền' field blank.", "Failed");
     }
-
 
     @Test
     public void transferWithMoneyIs0VND() throws IOException {
@@ -92,11 +93,28 @@ public class Transfer {
 
         if (isDisplay) {
             System.out.println("Not OK");
-            Export.ExcelFile("ResultDemo", "Result", "TC01", "", "Failed");
+            Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_03", "Verify that the 'Số tiền chuyển khoản phải là số lớn hơn 0' message displayed when the user enters the transfer amount is 0.", "Failed");
         }
 
         System.out.println("OK");
-        Export.ExcelFile("ResultDemo", "Result", "TC01", "OK", "Passed");
+        Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_03", "Verify that the 'Số tiền chuyển khoản phải là số lớn hơn 0' message displayed when the user enters the transfer amount is 0.", "Passed");
+    }
+
+    @Test
+    public void transferWithBlankAccountReceive() throws IOException {
+        Actions.Transfer.enterDataTransfer(driver);
+        Actions.Transfer.setValueForInput(driver, receiveAccountElement, "");
+        Actions.Transfer.clickConfirmButton(driver);
+        String observerMessage = Actions.Transfer.getMessage(driver);
+        String expectedMessage = "Nhập số tài khoản nhận";
+
+        if (observerMessage == expectedMessage) {
+            System.out.println("OK");
+            Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_04", "Verify that the message 'Nhập số tài khoản nhận' is displayed when the 'Tài khoản nhận' field is empty.", "Passed");
+        }
+        System.out.println(observerMessage);
+        System.out.println(expectedMessage);
+        Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_04", "Verify that the message 'Nhập số tài khoản nhận' is displayed when the 'Tài khoản nhận' field is empty.", "Failed");
     }
 
     @After

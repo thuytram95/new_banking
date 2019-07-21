@@ -50,9 +50,9 @@ public class OpenAccount {
         int countRecord = openAccountAction.countElementByType(driver, savingAccountTdElement);
 
         if (countRecord > 1) {
-            Export.ExcelFile("ResultDemo", "Result", "TC01", "Verify user can login with valid username and password", "Failed");
+            Export.ExcelFile("ResultDemo", "Result", "TC_OpenAccount_01", "Verify user can open account with account type is 'Tài khoản tiết kiệm'.", "Failed");
         } else {
-            Export.ExcelFile("ResultDemo", "Result", "TC01", "Verify user can login with valid username and password", "Passed");
+            Export.ExcelFile("ResultDemo", "Result", "TC_OpenAccount_01", "Verify user can open account with account type is 'Tài khoản tiết kiệm'.", "Passed");
         }
     }
 
@@ -61,9 +61,9 @@ public class OpenAccount {
         openAccountAction.createAccountWithType(driver, nonTermDepositsElement);
         int countRecord = openAccountAction.countElementByType(driver, nonTermDepositsTdElement);
         if (countRecord > 1) {
-            Export.ExcelFile("ResultDemo", "Result", "TC01", "Verify user can login with valid username and password", "Failed");
+            Export.ExcelFile("ResultDemo", "Result", "TC_OpenAccount_02", "Verify user can open account with account type is 'Tài khoản không kỳ hạn'.", "Failed");
         } else {
-            Export.ExcelFile("ResultDemo", "Result", "TC01", "Verify user can login with valid username and password", "Passed");
+            Export.ExcelFile("ResultDemo", "Result", "TC_OpenAccount_02", "Verify user can open account with account type is 'Tài khoản không kỳ hạn'.", "Passed");
         }
     }
 
