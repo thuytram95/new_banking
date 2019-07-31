@@ -1,4 +1,5 @@
 package Commons;
+
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -6,12 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.*;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.ss.usermodel.*;
-import java.util.Iterator;
-//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Export {
     private static String[] columns = {"TC_ID", "TC_Summary", "TC_Result", "Note"};
@@ -21,21 +16,20 @@ public class Export {
         //Workbook workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
 
         Workbook workbook;
-        Sheet  sheet;
-        int rowNum=1;
+        Sheet sheet;
+        int rowNum = 1;
         FileInputStream fis;
         String PathTillProject = System.getProperty("user.dir");
-        String path_of_File= PathTillProject + "/src/test/Data/" + File_Name + ".xlsx";
+        String path_of_File = PathTillProject + "/src/test/Data/" + File_Name + ".xlsx";
         File f = new File(path_of_File);
-        if (f.exists())
-        {
-             fis = new FileInputStream(path_of_File);
+        if (f.exists()) {
+            fis = new FileInputStream(path_of_File);
             workbook = new XSSFWorkbook(fis);
             sheet = workbook.getSheet(Sheet_Name);
             // get last row number
             rowNum = sheet.getPhysicalNumberOfRows();
 
-        }else {
+        } else {
             f.createNewFile();
             fis = new FileInputStream(f);
             workbook = new XSSFWorkbook();
@@ -55,21 +49,21 @@ public class Export {
             Row headerRow = sheet.createRow(0);
 
             // Create cells
-            for(int i = 0; i <4 ; i++) {
+            for (int i = 0; i < 4; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(columns[i]);
                 cell.setCellStyle(headerCellStyle);
             }
         }
 
-            Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(TC_ID);
-            row.createCell(1).setCellValue(TC_Summary);
-            row.createCell(2).setCellValue(TC_Result);
+        Row row = sheet.createRow(rowNum++);
+        row.createCell(0).setCellValue(TC_ID);
+        row.createCell(1).setCellValue(TC_Summary);
+        row.createCell(2).setCellValue(TC_Result);
 
 
         // Resize all columns to fit the content size
-        for(int i = 0; i < columns.length; i++) {
+        for (int i = 0; i < columns.length; i++) {
             sheet.autoSizeColumn(i);
         }
 

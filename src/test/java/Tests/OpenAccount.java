@@ -4,16 +4,14 @@ import Actions.Login_Actions;
 import Commons.LoadConfigFile;
 import Commons.Export;
 import Objects.Users;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-
 import static Pages.CreateAccount.*;
 import static Pages.CreateAccount.nonTermDepositsElement;
 import static Pages.CreateAccount.savingAccountElement;
@@ -26,7 +24,7 @@ public class OpenAccount {
     Actions.OpenAccount openAccountAction = new Actions.OpenAccount();
     int TimeOut = 20;
 
-    @Before
+    @BeforeMethod
     public void init() throws InterruptedException {
         properties = LoadConfigFile.loadPropertiesFile(propertyFilePath);
         user.setUsername(properties.getProperty("ID"));
@@ -44,7 +42,7 @@ public class OpenAccount {
         Actions.OpenAccount.clickOpenAccountLink(driver);
     }
 
-    @Test
+    @Test(description = "Verify user can open account with account type is 'Tài khoản tiết kiệm'.")
     public void savingAccount() throws IOException {
         openAccountAction.createAccountWithType(driver, savingAccountElement);
         int countRecord = openAccountAction.countElementByType(driver, savingAccountTdElement);
@@ -56,7 +54,7 @@ public class OpenAccount {
         }
     }
 
-    @Test
+    @Test(description = "Verify user can open account with account type is 'Tài khoản không kỳ hạn'.")
     public void nonTermDeposits() throws IOException {
         openAccountAction.createAccountWithType(driver, nonTermDepositsElement);
         int countRecord = openAccountAction.countElementByType(driver, nonTermDepositsTdElement);
@@ -67,7 +65,7 @@ public class OpenAccount {
         }
     }
 
-    @After
+    @AfterTest
     public void end() {
         driver.quit();
     }

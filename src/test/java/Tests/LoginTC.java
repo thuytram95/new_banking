@@ -3,22 +3,18 @@ package Tests;
 import Actions.Login_Actions;
 import Commons.LoadConfigFile;
 import Commons.Export;
-import Commons.StringUtils;
 import Objects.Users;
-
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static Pages.BankLogin_Page.passwordElement;
-
 
 public class LoginTC {
     Properties properties;

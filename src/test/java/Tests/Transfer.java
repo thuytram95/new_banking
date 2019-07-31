@@ -5,9 +5,10 @@ import Commons.Email;
 import Commons.LoadConfigFile;
 import Commons.Export;
 import Objects.Users;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -25,7 +26,7 @@ public class Transfer {
     Users user1 = new Users();
     int TimeOut = 1000;
 
-    @Before
+    @BeforeMethod
     public void init() throws InterruptedException {
         properties = LoadConfigFile.loadPropertiesFile(propertyFilePath);
         user1.setUsername(properties.getProperty("ID"));
@@ -43,7 +44,7 @@ public class Transfer {
         Actions.Transfer.clickTransfer(driver);
     }
 
-    @Test
+    @Test(description = "Verify that user can transfer successful with enter valid data all the remaining fields.")
     public void transferSuccess() throws IOException, InterruptedException {
         Actions.Transfer.enterDataTransfer(driver);
         Actions.Transfer.clickConfirmButton(driver);
@@ -62,12 +63,11 @@ public class Transfer {
                 return;
             }
         }
-
         System.out.println("NOT OK");
-        Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_01", "Verify that user can transfer successful with enter valid data all the remaining fields", "Failed");
+        Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_01", "Verify that user can transfer successful with enter valid data all the remaining fields.", "Failed");
     }
 
-    @Test
+    @Test(description = "Verify that the message 'Vui lòng nhập số tiền' is displayed when leave 'Số tiền' field blank.")
     public void transferWithBlankMoney() throws IOException {
         Actions.Transfer.enterDataTransfer(driver);
         Actions.Transfer.setValueForInput(driver, amountOfMoneyElement, "");
@@ -84,7 +84,7 @@ public class Transfer {
         Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_02", "Verify that the message 'Vui lòng nhập số tiền' is displayed when leave 'Số tiền' field blank.", "Failed");
     }
 
-    @Test
+    @Test(description = "Verify that the 'Số tiền chuyển khoản phải là số lớn hơn 0' message displayed when the user enters the transfer amount is 0.")
     public void transferWithMoneyIs0VND() throws IOException {
         Actions.Transfer.enterDataTransfer(driver);
         Actions.Transfer.setValueForInput(driver, amountOfMoneyElement, "0");
@@ -100,7 +100,7 @@ public class Transfer {
         Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_03", "Verify that the 'Số tiền chuyển khoản phải là số lớn hơn 0' message displayed when the user enters the transfer amount is 0.", "Passed");
     }
 
-    @Test
+    @Test(description = "Verify that the message 'Nhập số tài khoản nhận' is displayed when the 'Tài khoản nhận' field is empty.")
     public void transferWithBlankAccountReceive() throws IOException {
         Actions.Transfer.enterDataTransfer(driver);
         Actions.Transfer.setValueForInput(driver, receiveAccountElement, "");
@@ -117,7 +117,7 @@ public class Transfer {
         Export.ExcelFile("ResultDemo", "Result", "TC_Internal Transfer Money_04", "Verify that the message 'Nhập số tài khoản nhận' is displayed when the 'Tài khoản nhận' field is empty.", "Failed");
     }
 
-    @After
+    @AfterTest
     public void end() {
         driver.quit();
     }
